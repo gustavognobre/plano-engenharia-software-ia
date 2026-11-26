@@ -4,7 +4,7 @@ Trilha original, gratuita para leitura, em português, organizada para quem **j�
 
 ## Como usar
 
-Dedique 6 a 8 horas por semana: ~40% leitura e vídeo, ~50% prática e ~10% revisão. A estimativa total é de **146 horas** (aproximadamente 20 semanas a 8 horas/semana; ajuste conforme seu ritmo). Faça os módulos em sequência; o projeto final reutiliza todas as entregas. Em cada módulo, leia `aula.md`, execute `pratica.md`, responda ao `questionario.md` por etapa e revise `flashcards.md` em 1, 3, 7 e 14 dias. O gabarito está recolhido no questionário.
+Dedique 6 a 8 horas por semana: ~40% leitura e vídeo, ~50% prática e ~10% revisão. A estimativa total é de **146 horas** (aproximadamente 20 semanas a 8 horas/semana; ajuste conforme seu ritmo). Faça os módulos em sequência; o projeto final reutiliza todas as entregas. Abra o [HTML da trilha](index.html) no navegador para escolher um módulo e estudar na ordem proposta. Cada módulo tem um [roteiro em Word](roteiros) com explicações, vídeos, textos para leitura, prática e questões de revisão. Você pode baixar o repositório como ZIP pelo botão **Code** e abrir `index.html` localmente.
 
 ## Mapa dos módulos
 
@@ -53,4 +53,4 @@ Este repositório é independente das instituições acima. Links externos podem
 
 ## Próximo passo
 
-Abra [00 — Python, Git e ambiente](00-python-git-e-ambiente/README.md). Conclua o programa de contagem de palavras e responda às seis questões antes de iniciar o módulo 01.
+Abra o módulo 00, Python, Git e ambiente, no `index.html`. Conclua o programa de contagem de palavras e responda às seis questões antes de iniciar o módulo 01.
