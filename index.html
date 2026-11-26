@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#100f14">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Aplicação real de IA · Trilha de estudos</title>
 <style>
 :root {
@@ -76,9 +77,11 @@ h1,h2,h3{margin:0}
 .section p,.section li{line-height:1.65}
 .section li+li{margin-top:6px}
 .example{padding:11px 14px;border-left:3px solid #f38982;background:#27202b;border-radius:0 7px 7px 0}
-.video-block{display:grid;grid-template-columns:minmax(210px,.85fr) minmax(0,1.15fr);gap:18px;border:1px solid #4b3c4a;border-radius:12px;margin-top:16px;padding:14px}
+.video-block{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:18px;border:1px solid #4b3c4a;border-radius:12px;margin-top:16px;padding:14px}
 .watch-card{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;background:linear-gradient(135deg,#332130,#271921);border-radius:8px;padding:16px}
 .watch-card h3,.script h3{font-size:1rem}
+.watch-card iframe{display:block;width:100%;aspect-ratio:16/9;min-height:200px;border:0;border-radius:8px;background:#100f14}
+.watch-card .video-fallback{color:var(--muted);font-size:.82rem;text-underline-offset:3px}
 .watch-card .button{font-size:.85rem}
 .script{align-self:center}
 .script p{margin:7px 0 0}
@@ -89,6 +92,7 @@ details p{margin:8px 0 0}
 .pager{margin-top:22px;justify-content:space-between}
 .empty{color:var(--muted)}
 @media(max-width:780px){.hero-inner{grid-template-columns:1fr 0.65fr;min-height:365px}.art{padding:18px;min-height:185px}.cards{grid-auto-columns:minmax(205px,40%)}}
+@media(max-width:700px){.video-block{grid-template-columns:1fr}}
 @media(max-width:570px){.hero-inner{display:block;padding-block:40px 30px;min-height:0}.art{display:none}.catalog{padding-top:16px}.cards{grid-auto-columns:minmax(195px,69%)}.video-block{grid-template-columns:1fr}.lesson-hero{padding-block:24px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
 @media print{.top,.lesson-menu,.pager,.button{display:none}.section,.lesson-hero{break-inside:avoid}}
@@ -184,12 +188,24 @@ function renderHome() {
 }
 
 function videoBlock(video) {
-  const watch = "https://www.youtube.com/watch?v=" + encodeURIComponent(video.id);
-  return '<div class="video-block"><div class="watch-card">' +
-    '<h3>' + escapeHtml(video.title) + '</h3>' +
-    '<a class="button primary" href="' + watch + '" target="_blank" rel="noopener noreferrer">' +
-    '<span aria-hidden="true">▶</span> Assistir no YouTube <span aria-hidden="true">↗</span></a></div>' +
-    '<div class="script"><h3>Roteiro de leitura</h3><p>' + escapeHtml(video.script) + '</p></div></div>';
+  const videoId = encodeURIComponent(video.id);
+  const watch = "https://www.youtube.com/watch?v=" + videoId;
+  // A página publicada envia a origem HTTPS. Arquivos locais não enviam esse referer.
+  const canEmbed = location.protocol === "https:" || location.protocol === "http:";
+  const title = escapeHtml(video.title);
+  const player = canEmbed
+    ? '<iframe title="Vídeo: ' + title + '" loading="lazy" ' +
+      'src="https://www.youtube-nocookie.com/embed/' + videoId + '" ' +
+      'referrerpolicy="strict-origin-when-cross-origin" ' +
+      'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" ' +
+      'allowfullscreen></iframe>'
+    : '';
+  const link = '<a class="' + (canEmbed ? 'video-fallback' : 'button primary') +
+    '" href="' + watch + '" target="_blank" rel="noopener noreferrer">' +
+    (canEmbed ? 'Abrir no YouTube ↗' : 'Assistir no YouTube ↗') + '</a>';
+  return '<div class="video-block"><div class="watch-card"><h3>' + title + '</h3>' +
+    player + link + '</div><div class="script"><h3>Roteiro de leitura</h3><p>' +
+    escapeHtml(video.script) + '</p></div></div>';
 }
 
 function renderLesson(module) {
